@@ -1,10 +1,8 @@
-### It's not the final version of README file. I will finish it tomorrow :)
-
 This is an example of how single permission can be handled when launching app or specific composable screen. <br>
 Features to mention: <br>
-- Permission launcher is launched at startup even if it's granted
-- When showing permission dialog, user can't rotate screen or dismiss the dialog, clicking outside of it
-- For checking permission when user navigated back from app settings, ActivityResultLauncher was used
+- Permission launcher is launched at startup even if it's granted;
+- When showing permission dialog, user can't rotate screen;
+- For checking permission when user navigated back from app settings, ActivityResultLauncher was used.
 <br>
 How permissions work and why i decided to write logic like that:
 <br>
@@ -12,7 +10,7 @@ In Android we have these permission properties:
 <br>
 1. Is it granted;<br>
 2. Should Android show request rationale;<br>
-3. Is it permanently declined (And it's hidden).<br><br>
+3. Is it permanently declined (This property is hidden).<br><br>
 
 As i know, there are 4 states of permission in app: <br>
 | State №  | 1  | 2  | 3  | 4  |
@@ -27,6 +25,6 @@ States description:<br>
 3. Permission was declined in second request dialog. In Android version < 11 user should click "Never ask again"; <br>
 4. Permission was granted. <br>
 
-
-<br> (NEEDED TO EDIT)
-Looking at the table and knowing, that we can't get, whether permission was permanently declined or not, we get to the weird thing: we can't differentiate states 1 and 3
+<br>
+We know that we can't differentiate between states 1 and 3, because we can't get in application whether it's permanently declined or not. So why not requesting permission right away at app startup? And only after request send info to ViewModel. We'll skip state №1 and therefore remove ambiguity in permission state. <br><br>
+I locked screen orientation when showing permission dialog, because changing screen orientation is configuration change and it will recreate our activity. Activity recreation can lead to unexpexted behaviour. Also locking screen orientation makes user unable to dismiss permission dialog by clicking outside of it.
